@@ -1,8 +1,9 @@
-entity/Receita.class
-entity/enums/Uf.class
-entity/enums/GrupoAlimentar.class
-entity/Enderecos.class
-entity/Ingredientes.class
-entity/Despensa.class
-entity/Usuario.class
-entity/LivroReceita.class
+br/com/kitchenclub/entity/enums/Uf.class
+br/com/kitchenclub/entity/LivroReceita.class
+br/com/kitchenclub/entity/Enderecos.class
+br/com/kitchenclub/entity/enums/GrupoAlimentar.class
+br/com/kitchenclub/entity/Despensa.class
+br/com/kitchenclub/entity/Ingredientes.class
+br/com/kitchenclub/ApiApplication.class
+br/com/kitchenclub/entity/Receita.class
+br/com/kitchenclub/entity/Usuario.class
