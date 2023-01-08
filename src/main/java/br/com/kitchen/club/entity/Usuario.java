@@ -1,4 +1,4 @@
-package br.com.kitchenclub.entity;
+package br.com.kitchen.club.entity;
 
 import javax.persistence.*;
 
@@ -17,13 +17,13 @@ public class Usuario {
 
     private String password;
 
-    @ManyToOne
+//    @ManyToOne
     private Enderecos endereco;
 
-    @OneToMany
+//    @OneToMany
     private LivroReceita livroReceita;
 
-    @OneToMany
+//    @OneToMany
     private Despensa despensa;
 
     public Long getId() {

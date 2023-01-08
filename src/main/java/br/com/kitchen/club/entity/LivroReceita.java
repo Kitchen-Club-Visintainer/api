@@ -1,4 +1,4 @@
-package br.com.kitchenclub.entity;
+package br.com.kitchen.club.entity;
 
 import javax.persistence.*;
 
@@ -9,7 +9,7 @@ public class LivroReceita {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToMany
+//    @ManyToMany
     private Receita receita;
 
     private Boolean publica;

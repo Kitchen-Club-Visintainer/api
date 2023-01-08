@@ -1,4 +1,4 @@
-package br.com.kitchenclub.entity;
+package br.com.kitchen.club.entity;
 
 import br.com.kitchenclub.entity.enums.GrupoAlimentar;
 
