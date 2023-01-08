@@ -1,0 +1,8 @@
+entity/Receita.class
+entity/enums/Uf.class
+entity/enums/GrupoAlimentar.class
+entity/Enderecos.class
+entity/Ingredientes.class
+entity/Despensa.class
+entity/Usuario.class
+entity/LivroReceita.class

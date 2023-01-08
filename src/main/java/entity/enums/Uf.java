@@ -1,4 +1,4 @@
-package entity;
+package entity.enums;
 
 /**
  * @author Ricardo Giaviti
