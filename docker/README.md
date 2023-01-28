@@ -54,6 +54,24 @@ _Obs:_
 
 Feito isso, o banco de dados estará disponível em `http://localhost:5432`
 
+### Criação da Imagem
+
+Quando subimos esse container com a imagem do postgres, instalamos na nossa máquina essa imagem.
+Podemos verificar isso com o comando `sudo docker image`.
+
+### Destruir o container
+
+Para verificarmos os containers que estão rodando na nossa máquina, utilizamos o comando `sudo docker container ls -a`.
+Esse comando listará todos os containers que estão ativos no momento.
+
+Para destruirmos o container, basta utilizar o comando `sudo docker-compose down`.
+Com esse comando, podemos passar o _CONTAINER ID_, caso exista mais de um container e desejamos destruir um em 
+específico.
+
+#### Destruir uma imagem em específico
+
+Com o comando `docker image rmi <image_id>` podemos destruir uma imamgem específica que tenhamos criado.
+
 ### pgAdmin
 
 Podemos acessar o banco de dados através da ferramenta pgAdmin 4.
