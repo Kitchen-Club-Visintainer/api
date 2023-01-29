@@ -2,7 +2,7 @@ package br.com.kitchen.club.entity;
 
 import javax.persistence.*;
 
-@Entity
+//@Entity
 public class LivroReceita {
 
     @Id
