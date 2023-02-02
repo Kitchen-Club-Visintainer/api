@@ -1,22 +1,33 @@
 package br.com.kitchen.club.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
-//@Entity
+@Entity
 public class Receita {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "ingrediente_id")
     private Ingredientes ingredientes;
 
     private Float quantidade;
 
     private String unidadeMedida;
+
+    @ManyToMany(mappedBy = "receita")
+    private List<LivroReceita> livroReceita;
+
+    public List<LivroReceita> getLivroReceita() {
+        return livroReceita;
+    }
+
+    public void setLivroReceita(List<LivroReceita> livroReceita) {
+        this.livroReceita = livroReceita;
+    }
 
     public Long getId() {
         return id;

@@ -1,8 +1,9 @@
 package br.com.kitchen.club.entity;
 
 import javax.persistence.*;
+import java.util.List;
 
-//@Entity
+@Entity
 public class Usuario {
 
     @Id
@@ -17,14 +18,14 @@ public class Usuario {
 
     private String password;
 
-//    @ManyToOne
+    @OneToOne
     private Enderecos endereco;
 
-//    @OneToMany
-    private LivroReceita livroReceita;
+    @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<LivroReceita> livroReceita;
 
-//    @OneToMany
-    private Despensa despensa;
+    @OneToMany(mappedBy = "usuario", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<Despensa> despensa;
 
     public Long getId() {
         return id;
@@ -74,19 +75,19 @@ public class Usuario {
         this.endereco = endereco;
     }
 
-    public LivroReceita getLivroReceita() {
+    public List<LivroReceita> getLivroReceita() {
         return livroReceita;
     }
 
-    public void setLivroReceita(LivroReceita livroReceita) {
+    public void setLivroReceita(List<LivroReceita> livroReceita) {
         this.livroReceita = livroReceita;
     }
 
-    public Despensa getDespensa() {
+    public List<Despensa> getDespensa() {
         return despensa;
     }
 
-    public void setDespensa(Despensa despensa) {
+    public void setDespensa(List<Despensa> despensa) {
         this.despensa = despensa;
     }
 }

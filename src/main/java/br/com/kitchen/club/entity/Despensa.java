@@ -2,23 +2,32 @@ package br.com.kitchen.club.entity;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
+import java.util.List;
 
-//@Entity
+@Entity
 public class Despensa {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Ingredientes ingredientes;
+    @ManyToMany
+    @JoinTable(name = "ingredientes",
+            joinColumns = @JoinColumn(name = "despensa_id"),
+            inverseJoinColumns = @JoinColumn(name = "ingredientes_id"))
+    private List<Ingredientes> ingredientes;
 
     private Float quantidade;
 
-    private DateTimeFormat dataValidade;
+    @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
+    private Date dataValidade;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "usuario_id")
+    private Usuario usuario;
 
     public Long getId() {
         return id;
@@ -28,11 +37,11 @@ public class Despensa {
         this.id = id;
     }
 
-    public Ingredientes getIngredientes() {
+    public List<Ingredientes> getIngredientes() {
         return ingredientes;
     }
 
-    public void setIngredientes(Ingredientes ingredientes) {
+    public void setIngredientes(List<Ingredientes> ingredientes) {
         this.ingredientes = ingredientes;
     }
 
@@ -44,11 +53,19 @@ public class Despensa {
         this.quantidade = quantidade;
     }
 
-    public DateTimeFormat getDataValidade() {
+    public Date getDataValidade() {
         return dataValidade;
     }
 
-    public void setDataValidade(DateTimeFormat dataValidade) {
+    public void setDataValidade(Date dataValidade) {
         this.dataValidade = dataValidade;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 }

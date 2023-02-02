@@ -1,16 +1,20 @@
 package br.com.kitchen.club.entity;
 
 import javax.persistence.*;
+import java.util.List;
 
-//@Entity
+@Entity
 public class LivroReceita {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-//    @ManyToMany
-    private Receita receita;
+    @ManyToMany
+    @JoinTable(name = "receita",
+            joinColumns = @JoinColumn(name = "receita_id"),
+            inverseJoinColumns = @JoinColumn(name = "livro_receita_id"))
+    private List<Receita> receita;
 
     private Boolean publica;
 
@@ -20,20 +24,16 @@ public class LivroReceita {
 
     private Float rendimento;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "usuario_id")
+    private Usuario usuario;
+
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Receita getReceita() {
-        return receita;
-    }
-
-    public void setReceita(Receita receita) {
-        this.receita = receita;
     }
 
     public Boolean getPublica() {
@@ -66,5 +66,21 @@ public class LivroReceita {
 
     public void setRendimento(Float rendimento) {
         this.rendimento = rendimento;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
+    public List<Receita> getReceita() {
+        return receita;
+    }
+
+    public void setReceita(List<Receita> receita) {
+        this.receita = receita;
     }
 }
