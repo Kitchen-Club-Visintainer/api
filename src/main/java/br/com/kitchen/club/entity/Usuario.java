@@ -1,10 +1,14 @@
 package br.com.kitchen.club.entity;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import javax.persistence.*;
+import java.util.Collection;
 import java.util.List;
 
 @Entity
-public class Usuario {
+public class Usuario implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -12,11 +16,11 @@ public class Usuario {
 
     private String nomeCompleto;
 
-    private String userName;
+    private String usuario;
 
     private String email;
 
-    private String password;
+    private String senha;
 
     @OneToOne
     private Enderecos endereco;
@@ -43,12 +47,12 @@ public class Usuario {
         this.nomeCompleto = nomeCompleto;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsuario() {
+        return usuario;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
     }
 
     public String getEmail() {
@@ -59,12 +63,12 @@ public class Usuario {
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
+    public String getSenha() {
+        return senha;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setSenha(String senha) {
+        this.senha = senha;
     }
 
     public Enderecos getEndereco() {
@@ -89,5 +93,44 @@ public class Usuario {
 
     public void setDespensa(List<Despensa> despensa) {
         this.despensa = despensa;
+    }
+
+//  MÉTODOS VINDOS DA UserDetails
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
+    }
+
+    @Override
+    public String getPassword() {
+        return getSenha();
+    }
+
+    @Override
+    public String getUsername() {
+        return getUsuario();
+    }
+
+//  DESENVOLVER DEPOIS OS MÉTODOS ABAIXO:
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 }
