@@ -1,10 +1,10 @@
-package br.com.kitchen.club.controller.tdo;
+package br.com.kitchen.club.controller.dto;
 
-public class TokenTdo {
+public class TokenDto {
 
     private String token;
     private String tipo;
-    public TokenTdo(String token, String tipo) {
+    public TokenDto(String token, String tipo) {
         this.token = token;
         this.tipo = tipo;
     }
