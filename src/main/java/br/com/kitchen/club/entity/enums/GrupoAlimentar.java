@@ -1,4 +1,4 @@
-package br.com.kitchenclub.entity.enums;
+package br.com.kitchen.club.entity.enums;
 
 public enum GrupoAlimentar {
 

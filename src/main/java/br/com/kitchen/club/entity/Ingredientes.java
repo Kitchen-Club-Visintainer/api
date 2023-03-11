@@ -1,6 +1,6 @@
 package br.com.kitchen.club.entity;
 
-import br.com.kitchenclub.entity.enums.GrupoAlimentar;
+import br.com.kitchen.club.entity.enums.GrupoAlimentar;
 
 import javax.persistence.*;
 import java.util.List;

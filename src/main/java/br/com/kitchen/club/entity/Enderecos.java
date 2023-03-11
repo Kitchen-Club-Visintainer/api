@@ -1,6 +1,6 @@
 package br.com.kitchen.club.entity;
 
-import br.com.kitchenclub.entity.enums.Uf;
+import br.com.kitchen.club.entity.enums.Uf;
 
 import javax.persistence.*;
 
