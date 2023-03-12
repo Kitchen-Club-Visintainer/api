@@ -14,10 +14,19 @@ target/
 .sts4-cache
 
 ### IntelliJ IDEA ###
-.idea
 *.iws
 *.iml
 *.ipr
+misc.xml
+compiler.xml
+encodings.xml
+jarRepositories.xml
+jpa-buddy.xml
+uiDesigner.xml
+vcs.xml
+workspace.xml
+shelf
+
 
 ### NetBeans ###
 /nbproject/private/
@@ -31,3 +40,4 @@ build/
 
 ### VS Code ###
 .vscode/
+/.idea/
