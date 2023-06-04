@@ -1,24 +1,1 @@
-package br.com.kitchen.club.controller;
-
-import br.com.kitchen.club.entity.Ingredientes;
-import br.com.kitchen.club.repository.IngredientesRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-@RestController
-@RequestMapping("/ingredientes")
-public class IngredientesController {
-
-    @Autowired
-    private IngredientesRepository repository;
-
-    @GetMapping
-    public Page<Ingredientes> listarTodosIngredientes(){
-        Page<Ingredientes> ingredientes = (Page<Ingredientes>) repository.findAll();
-        return ingredientes;
-    }
-
-}
+package br.com.kitchen.club.controller;import br.com.kitchen.club.dto.request.IngredientesRequest;import br.com.kitchen.club.entity.Ingredientes;import br.com.kitchen.club.service.IngredientesService;import org.springframework.beans.factory.annotation.Autowired;import org.springframework.http.HttpStatus;import org.springframework.http.ResponseEntity;import org.springframework.web.bind.annotation.*;@RestController@RequestMapping("/ingredientes")public class IngredientesController {    @Autowired    private IngredientesService service;    @GetMapping    public ResponseEntity<Ingredientes> listarTodosIngredientes() {        return service.consultarTodosIngredientes();    }//    @GetMapping//    public ResponseEntity<String> listarIngrediente() {//        return service.consultarIngredientes();//    }    @PostMapping    public ResponseEntity<Ingredientes> cadastrarIngrediente(            @RequestBody            IngredientesRequest request) {        return service.cadastrarIngrediente(request);    }}
