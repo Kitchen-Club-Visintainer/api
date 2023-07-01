@@ -1,4 +1,4 @@
-package br.com.kitchen.club.controller.dto;
+package br.com.kitchen.club.dto;
 
 public class TokenDto {
 
@@ -7,6 +7,10 @@ public class TokenDto {
     public TokenDto(String token, String tipo) {
         this.token = token;
         this.tipo = tipo;
+    }
+
+    public TokenDto(String token) {
+        this.token = token;
     }
 
     public String getToken() {
