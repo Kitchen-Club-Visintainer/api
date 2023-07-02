@@ -49,23 +49,6 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 .passwordEncoder(new BCryptPasswordEncoder());
     }
 
-//    @Override
-//    protected void configure(HttpSecurity http) throws Exception {
-//        http.authorizeRequests()
-//                .antMatchers(HttpMethod.GET, "/*").permitAll()
-//                .antMatchers(HttpMethod.POST, "/*").permitAll()
-//                .anyRequest().authenticated()
-//                .and().csrf().disable()
-//                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-//                .and().addFilterBefore(new AutenticacaoViaTokenFilter(usuarioRepository, tokenService), UsernamePasswordAuthenticationFilter.class);
-//    }
-
-    @Bean
-    public JwtAuthenticationTokenFilter authenticationTokenFilterBean() throws Exception {
-        return new JwtAuthenticationTokenFilter();
-    }
-
-    //Somente permite acessar qualquer URL após fazer o login
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors()
@@ -75,7 +58,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests()
                 .antMatchers("/auth/**").permitAll().anyRequest().authenticated();
 
-        http.addFilterBefore(authenticationTokenFilterBean(), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(new AutenticacaoViaTokenFilter(usuarioRepository, tokenService), UsernamePasswordAuthenticationFilter.class);
         http.headers().cacheControl();
     }
 
@@ -90,7 +73,6 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
         config.setAllowedOrigins(Arrays.asList("http://localhost:4200", "https://you.server.domain.com"));
-//        config.addAllowedOrigin("*");
         config.addAllowedHeader("*");
         config.addAllowedMethod(HttpMethod.GET);
         config.addAllowedMethod(HttpMethod.POST);
@@ -104,6 +86,6 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 
 //    CÓDIGO APENAS PARA GERAR O HASH DA SENHA QUE FICARÁ CADASTRADA NO BANCO DE DADOS
 //    public static void main(String[] args) {
-//        System.out.println(new BCryptPasswordEncoder().encode("123456"));
+//        System.out.println(new BCryptPasswordEncoder().encode("davi"));
 //    }
 }

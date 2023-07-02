@@ -1,9 +1,8 @@
 package br.com.kitchen.club.controller;
 
 import br.com.kitchen.club.config.security.TokenService;
-import br.com.kitchen.club.config.security.util.JwtTokenUtil;
+import br.com.kitchen.club.dto.request.LoginDTO;
 import br.com.kitchen.club.dto.TokenDto;
-import br.com.kitchen.club.dto.JwtAuthenticationDTO;
 import br.com.kitchen.club.dto.response.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,24 +40,21 @@ public class AuthController {
     @Autowired
     private UserDetailsService userDetailsService;
 
-    @Autowired
-    private JwtTokenUtil jwtTokenUtil;
-
     private static final Logger log = LoggerFactory.getLogger(AuthController.class);
 
-//    @PostMapping
-//    public ResponseEntity<TokenDto> autenticar(@RequestBody @Valid LoginForm form) {
-//        UsernamePasswordAuthenticationToken dadosLogin = form.converter();
-//
-//        try {
-//            var authentication = authManager.authenticate(dadosLogin);
-//            String token = tokenService.gerarToken(authentication);
-////            ELE ENVIA UM FORM COM AS INFORMAÇÕES DO TOKEN E O TIPO DE AUTENTICAÇÃO QUE A API DEVERÁ FAZER FUTURAMENTE
-//            return ResponseEntity.ok(new TokenDto(token, "Bearer"));
-//        } catch (AuthenticationException e) {
-//            return ResponseEntity.badRequest().build();
-//        }
-//    }
+    @PostMapping(value = "/api")
+    public ResponseEntity<TokenDto> autenticar(@RequestBody @Valid LoginDTO form) {
+        UsernamePasswordAuthenticationToken dadosLogin = form.converter();
+
+        try {
+            var authentication = authManager.authenticate(dadosLogin);
+            String token = tokenService.gerarToken(authentication);
+//            ELE ENVIA UM FORM COM AS INFORMAÇÕES DO TOKEN E O TIPO DE AUTENTICAÇÃO QUE A API DEVERÁ FAZER FUTURAMENTE
+            return ResponseEntity.ok(new TokenDto(token, "Bearer"));
+        } catch (AuthenticationException e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
 
     /**
      * Gera e retorna um novo token JWT.
@@ -69,7 +65,7 @@ public class AuthController {
      * @throws AuthenticationException
      */
     @PostMapping
-    public ResponseEntity<Response<TokenDto>> gerarTokenJwt(@Valid @RequestBody JwtAuthenticationDTO authenticationDto,
+    public ResponseEntity<Response<TokenDto>> gerarTokenJwt(@Valid @RequestBody LoginDTO authenticationDto,
                                                             BindingResult result) throws AuthenticationException {
         Response<TokenDto> response = new Response<>();
 
@@ -85,7 +81,8 @@ public class AuthController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationDto.getNome());
-        String token = jwtTokenUtil.obterToken(userDetails);
+//        String token = jwtTokenUtil.obterToken(userDetails);
+        String token = tokenService.gerarToken(authentication);
         response.setData(new TokenDto(token));
 
         return ResponseEntity.ok(response);
