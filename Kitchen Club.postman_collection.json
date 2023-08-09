@@ -1,0 +1,180 @@
+{
+	"info": {
+		"_postman_id": "03817eb8-44d0-47ce-9372-777dc8f62307",
+		"name": "Kitchen Club",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "19293512"
+	},
+	"item": [
+		{
+			"name": "Response Teste",
+			"request": {
+				"auth": {
+					"type": "bearer"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/ingredientes",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"ingredientes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Actuator",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/actuator",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"actuator"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Request Teste",
+			"request": {
+				"auth": {
+					"type": "bearer"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"nome\": \"teste\",\n    \"valorNutricional\": \"100kcal\",\n    \"grupoAlimentar\": \"CARBOIDRATOS\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/auth",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"auth"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "LOGIN",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"nome\": \"davi\",\n    \"senha\": \"davi\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/auth",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"auth"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "NOVO_USUARIO",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"nomeCompleto\": \"davi\",\n    \"username\": \"Davi\",\n    \"email\": \"eusoudavi@gmail.com\",\n    \"senha\": \"abc1234\",\n    \"confSenha\": \"abc1234\",\n    \"cep\": \"72300603\",\n    \"logradouro\": \"endereço completo\",\n    \"complemento\": \"complemento\",\n    \"numero\": \"0000\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/auth/novoUsuario",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"auth",
+						"novoUsuario"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"const echoPostRequest = {",
+					"  url: 'http://localhost:8080/auth',",
+					"  method: 'POST',",
+					"  header: {",
+					"        'content-type': 'application/json',",
+					"    },",
+					"  body: {",
+					"        mode: 'raw',",
+					"        raw: JSON.stringify({ nome: 'davi', senha: 'davi' })",
+					"    }",
+					"};",
+					"pm.sendRequest(echoPostRequest, function (err, response) {",
+					"    var data = response.json();",
+					"    console.log(data.data.token)",
+					"    pm.collectionVariables.set(\"token\", data.data.token);",
+					"});"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "token",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "url",
+			"value": "localhost:8080",
+			"type": "string"
+		}
+	]
+}

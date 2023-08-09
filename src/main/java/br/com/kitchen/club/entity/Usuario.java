@@ -21,6 +21,7 @@ public class Usuario implements UserDetails {
     private String email;
 
     private String senha;
+    //TODO: Colocar atributo de ATIVO  e PERFIS
 
     @OneToOne
     private Enderecos endereco;
@@ -30,6 +31,16 @@ public class Usuario implements UserDetails {
 
     @OneToMany(mappedBy = "usuario", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Despensa> despensa;
+
+    public Usuario() {
+    }
+
+    public Usuario(String nomeCompleto, String usuario, String email) {
+        super();
+        this.nomeCompleto = nomeCompleto;
+        this.usuario = usuario;
+        this.email = email;
+    }
 
     public Long getId() {
         return id;

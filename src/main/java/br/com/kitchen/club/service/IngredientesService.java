@@ -43,7 +43,7 @@ public class IngredientesService extends BaseService {
 
 
     @Override
-    public JpaRepository getService() {
+    public JpaRepository getRepository() {
         return repository;
     }
 

@@ -1,14 +1,15 @@
 package br.com.kitchen.club.controller;
 
+import br.com.kitchen.club.config.exception.ParametroException;
 import br.com.kitchen.club.config.security.TokenService;
+import br.com.kitchen.club.dto.TokenDto;
 import br.com.kitchen.club.dto.request.CadastroRequest;
 import br.com.kitchen.club.dto.request.LoginDTO;
-import br.com.kitchen.club.dto.TokenDto;
 import br.com.kitchen.club.dto.response.Response;
 import br.com.kitchen.club.entity.enums.Uf;
+import br.com.kitchen.club.service.UsuarioService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -22,34 +23,34 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
 
-    @Autowired
-    private AuthenticationManager authManager;
-
-    @Autowired
-    private TokenService tokenService;
-
-//    @Qualifier("authenticationManagerBean")
-    @Autowired
-    private AuthenticationManager authenticationManager;
-
-    @Autowired
-    private UserDetailsService userDetailsService;
-
+    private final AuthenticationManager authManager;
+    private final TokenService tokenService;
+    private final AuthenticationManager authenticationManager;
+    private final UserDetailsService userDetailsService;
+    private final UsuarioService usuarioService;
     private static final Logger log = LoggerFactory.getLogger(AuthController.class);
+
+    public AuthController(AuthenticationManager authManager,
+                          TokenService tokenService,
+                          AuthenticationManager authenticationManager,
+                          UserDetailsService userDetailsService, UsuarioService usuarioService) {
+        this.authManager = authManager;
+        this.tokenService = tokenService;
+        this.authenticationManager = authenticationManager;
+        this.userDetailsService = userDetailsService;
+        this.usuarioService = usuarioService;
+    }
 
     @PostMapping(value = "/api")
     public ResponseEntity<TokenDto> autenticar(@RequestBody @Valid LoginDTO form) {
-        UsernamePasswordAuthenticationToken dadosLogin = form.converter();
-
+        var dadosLogin = form.converter();
         try {
             var authentication = authManager.authenticate(dadosLogin);
             String token = tokenService.gerarToken(authentication);
@@ -60,21 +61,8 @@ public class AuthController {
         }
     }
 
-    @PostMapping(value = "/novoUsuario")
-    public ResponseEntity<String> cadastrarNovoUsuario(@RequestBody CadastroRequest cadastro) {
-        System.out.println("teste");
-        return new ResponseEntity<>("Recebido", HttpStatus.OK);
-    }
-
-    @GetMapping(value = "/estados")
-    public ResponseEntity<List<String>> buscarEstados() {
-        Uf[] estados = Uf.values();
-        List<String> resposta = Arrays.stream(estados).map(Uf::nome).toList();
-        return new ResponseEntity<>(resposta, HttpStatus.OK);
-    }
-
     /**
-     * Gera e retorna um novo token JWT.
+     * Gera e retorna um novo token JWT para autenticação via Angular.
      *
      * @param authenticationDto
      * @param result
@@ -105,6 +93,35 @@ public class AuthController {
         return ResponseEntity.ok(response);
     }
 
+    /**
+     * Verificação dos estados disponíveis no sistema para cadastrar um novo usuário
+     *
+     * @return ResponseEntity<List<String>>
+     * @version 1.0.0
+     * @auhor Davi Visintainer
+     * */
+    @GetMapping(value = "/estados")
+    public ResponseEntity<List<String>> buscarEstados() {
+        Uf[] estados = Uf.values();
+        var resposta = Arrays.stream(estados)
+                .map(Uf::nome)
+                .toList();
+        return new ResponseEntity<>(resposta, HttpStatus.OK);
+    }
 
+    /**
+     * Recebe um formulário de cadastro para um novo usuário
+     *
+     * @param cadastro
+     * @return ResponseEntity<Response<TokenDto>>
+     * @throws AuthenticationException
+     * */
+    @PostMapping(value = "/novoUsuario")
+    public ResponseEntity<String> cadastrarNovoUsuario(@RequestBody CadastroRequest cadastro) throws ParametroException {
+
+        usuarioService.cadastrarNovoUsuario(cadastro);
+
+        return new ResponseEntity<>("Recebido", HttpStatus.OK);
+    }
 
 }

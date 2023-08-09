@@ -1,5 +1,7 @@
 package br.com.kitchen.club.bases;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import javax.transaction.Transactional;
@@ -9,18 +11,20 @@ import java.util.Optional;
 @Transactional
 public abstract class BaseService {
 
-    public abstract JpaRepository getService();
+    protected final Log logger = LogFactory.getLog(BaseService.class);
+
+    public abstract JpaRepository getRepository();
 
     public List findAll(){
-        return getService().findAll();
+        return getRepository().findAll();
     }
 
     public Optional findById(Long id){
-        return getService().findById(id);
+        return getRepository().findById(id);
     }
 
     public void save(Object object){
-        getService().save(object);
+        getRepository().save(object);
     }
 
 
