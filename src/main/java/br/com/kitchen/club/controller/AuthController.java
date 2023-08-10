@@ -34,18 +34,16 @@ public class AuthController {
     private final TokenService tokenService;
     private final AuthenticationManager authenticationManager;
     private final UserDetailsService userDetailsService;
-    private final UsuarioService usuarioService;
-    private static final Logger log = LoggerFactory.getLogger(AuthController.class);
+    private static final Logger log = LoggerFactory.getLogger(AuthController.class); //TODO:revisar
 
     public AuthController(AuthenticationManager authManager,
                           TokenService tokenService,
                           AuthenticationManager authenticationManager,
-                          UserDetailsService userDetailsService, UsuarioService usuarioService) {
+                          UserDetailsService userDetailsService) {
         this.authManager = authManager;
         this.tokenService = tokenService;
         this.authenticationManager = authenticationManager;
         this.userDetailsService = userDetailsService;
-        this.usuarioService = usuarioService;
     }
 
     @PostMapping(value = "/api")
@@ -91,37 +89,6 @@ public class AuthController {
         response.setData(new TokenDto(token));
 
         return ResponseEntity.ok(response);
-    }
-
-    /**
-     * Verificação dos estados disponíveis no sistema para cadastrar um novo usuário
-     *
-     * @return ResponseEntity<List<String>>
-     * @version 1.0.0
-     * @auhor Davi Visintainer
-     * */
-    @GetMapping(value = "/estados")
-    public ResponseEntity<List<String>> buscarEstados() {
-        Uf[] estados = Uf.values();
-        var resposta = Arrays.stream(estados)
-                .map(Uf::nome)
-                .toList();
-        return new ResponseEntity<>(resposta, HttpStatus.OK);
-    }
-
-    /**
-     * Recebe um formulário de cadastro para um novo usuário
-     *
-     * @param cadastro
-     * @return ResponseEntity<Response<TokenDto>>
-     * @throws AuthenticationException
-     * */
-    @PostMapping(value = "/novoUsuario")
-    public ResponseEntity<String> cadastrarNovoUsuario(@RequestBody CadastroRequest cadastro) throws ParametroException {
-
-        usuarioService.cadastrarNovoUsuario(cadastro);
-
-        return new ResponseEntity<>("Recebido", HttpStatus.OK);
     }
 
 }

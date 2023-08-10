@@ -1,7 +1,9 @@
 package br.com.kitchen.club.entity;
 
+import br.com.kitchen.club.entity.enums.PerfilUsuario;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.*;
 import java.util.Collection;
@@ -21,25 +23,42 @@ public class Usuario implements UserDetails {
     private String email;
 
     private String senha;
+
+    private Boolean ativo;
+
+    private PerfilUsuario perfilUsuario;
+
     //TODO: Colocar atributo de ATIVO  e PERFIS
 
     @OneToOne
     private Enderecos endereco;
 
     @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<LivroReceita> livroReceita;
+    private List<LivroReceita> livroReceitas;
 
     @OneToMany(mappedBy = "usuario", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private List<Despensa> despensa;
+    private List<Despensa> despensas;
 
     public Usuario() {
     }
 
-    public Usuario(String nomeCompleto, String usuario, String email) {
+    /**
+     * Construtor de novos usuários
+     *
+     * @param nomeCompleto  Nome completo do usuário
+     * @param usuario       Nome de usuário para login no sistema
+     * @param email         Email do usuário
+     * @param senha         Senha do usuário - será feita a encriptação da senha
+     *
+     * @version 1.0.0
+     * @auhor Davi Visintainer
+     * */
+    public Usuario(String nomeCompleto, String usuario, String email, String senha) {
         super();
         this.nomeCompleto = nomeCompleto;
         this.usuario = usuario;
         this.email = email;
+        this.senha = new BCryptPasswordEncoder().encode(senha);
     }
 
     public Long getId() {
@@ -79,7 +98,7 @@ public class Usuario implements UserDetails {
     }
 
     public void setSenha(String senha) {
-        this.senha = senha;
+        this.senha = new BCryptPasswordEncoder().encode(senha);
     }
 
     public Enderecos getEndereco() {
@@ -90,20 +109,20 @@ public class Usuario implements UserDetails {
         this.endereco = endereco;
     }
 
-    public List<LivroReceita> getLivroReceita() {
-        return livroReceita;
+    public List<LivroReceita> getLivroReceitas() {
+        return livroReceitas;
     }
 
-    public void setLivroReceita(List<LivroReceita> livroReceita) {
-        this.livroReceita = livroReceita;
+    public void setLivroReceitas(List<LivroReceita> livroReceitas) {
+        this.livroReceitas = livroReceitas;
     }
 
-    public List<Despensa> getDespensa() {
-        return despensa;
+    public List<Despensa> getDespensas() {
+        return despensas;
     }
 
-    public void setDespensa(List<Despensa> despensa) {
-        this.despensa = despensa;
+    public void setDespensas(List<Despensa> despensas) {
+        this.despensas = despensas;
     }
 
 //  MÉTODOS VINDOS DA UserDetails

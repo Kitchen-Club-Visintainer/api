@@ -9,22 +9,22 @@ import java.util.List;
 import java.util.Optional;
 
 @Transactional
-public abstract class BaseService {
+public abstract class BaseService<Entity> {
 
     protected final Log logger = LogFactory.getLog(BaseService.class);
 
-    public abstract JpaRepository getRepository();
+    public abstract JpaRepository<Entity, Long> getRepository();
 
-    public List findAll(){
+    public List<Entity> findAll(){
         return getRepository().findAll();
     }
 
-    public Optional findById(Long id){
+    public Optional<Entity> findById(Long id){
         return getRepository().findById(id);
     }
 
-    public void save(Object object){
-        getRepository().save(object);
+    public void save(Entity entity){
+        getRepository().save(entity);
     }
 
 

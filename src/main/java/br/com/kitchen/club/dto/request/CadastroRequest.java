@@ -9,6 +9,7 @@ public record CadastroRequest(
         String cep,
         String logradouro,
         String complemento,
-        Integer numero
+        Integer numero,
+        String uf
 ) {
 }

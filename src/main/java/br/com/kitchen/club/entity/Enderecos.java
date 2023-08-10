@@ -22,6 +22,17 @@ public class Enderecos {
     @Enumerated(EnumType.STRING)
     private Uf uf;
 
+    public Enderecos() {
+    }
+
+    public Enderecos(String cep, String logradouro, String complemento, Integer numero) {
+        super();
+        this.cep = cep;
+        this.logradouro = logradouro;
+        this.complemento = complemento;
+        this.numero = numero;
+    }
+
     public Long getId() {
         return id;
     }

@@ -20,12 +20,15 @@ public class UsuarioService extends BaseService {
     }
 
     public void cadastrarNovoUsuario(CadastroRequest cadastro) throws ParametroException {
-        verificarExistênciaUsuario(cadastro);
+        verificarExistenciaUsuario(cadastro);
         validarSenha(cadastro);
         validarCep(cadastro);
+
+        var usuario = usuarioMapper.dtoToEntity(cadastro);
+        save(usuario);
     }
 
-    private void verificarExistênciaUsuario(CadastroRequest cadstro) throws ParametroException {
+    private void verificarExistenciaUsuario(CadastroRequest cadstro) throws ParametroException {
         var usuarioCadastrado = usuarioRepository.findByUsuario(cadstro.username().toLowerCase());
         if (usuarioCadastrado.isPresent())
             throw new ParametroException("Usuário já está cadastrado no sistema");
