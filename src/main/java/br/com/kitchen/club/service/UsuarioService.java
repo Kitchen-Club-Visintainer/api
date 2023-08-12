@@ -29,7 +29,7 @@ public class UsuarioService extends BaseService {
     }
 
     private void verificarExistenciaUsuario(CadastroRequest cadstro) throws ParametroException {
-        var usuarioCadastrado = usuarioRepository.findByUsuario(cadstro.username().toLowerCase());
+        var usuarioCadastrado = usuarioRepository.findByUsuario(cadstro.username());
         if (usuarioCadastrado.isPresent())
             throw new ParametroException("Usuário já está cadastrado no sistema");
         logger.info("USUÁRIO NÃO EXISTE AINDA NO SISTEMA");

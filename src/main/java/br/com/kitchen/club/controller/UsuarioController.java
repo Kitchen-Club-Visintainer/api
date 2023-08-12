@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/usuario")
 public class UsuarioController {
@@ -30,10 +32,9 @@ public class UsuarioController {
      * @throws AuthenticationException
      * */
     @PostMapping(value = "/novoUsuario")
-    public ResponseEntity<String> cadastrarNovoUsuario(@RequestBody CadastroRequest cadastro) throws ParametroException {
+    public ResponseEntity<String> cadastrarNovoUsuario(@Valid @RequestBody CadastroRequest cadastro) throws ParametroException {
 
         usuarioService.cadastrarNovoUsuario(cadastro);
-
         return new ResponseEntity<>("Recebido", HttpStatus.OK);
     }
 }
