@@ -6,15 +6,16 @@ import br.com.kitchen.club.entity.Usuario;
 import br.com.kitchen.club.entity.enums.Uf;
 import br.com.kitchen.club.repository.EnderecosRepository;
 import org.apache.logging.log4j.util.Strings;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.annotation.Transient;
 import org.springframework.stereotype.Component;
 
 @Component
 public class UsuarioMapper {
 
-    @Autowired
-    private EnderecosRepository enderecosRepository;
+    private final EnderecosRepository enderecosRepository;
+
+    public UsuarioMapper(EnderecosRepository enderecosRepository) {
+        this.enderecosRepository = enderecosRepository;
+    }
 
     public Usuario dtoToEntity(CadastroRequest cadastro) {
         var usuario = new Usuario(

@@ -2,7 +2,7 @@ package br.com.kitchen.club.config.security;
 
 import br.com.kitchen.club.entity.Usuario;
 import br.com.kitchen.club.repository.UsuarioRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.apache.logging.log4j.util.Strings;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -15,6 +15,9 @@ import java.io.IOException;
 
 public class AutenticacaoViaTokenFilter extends OncePerRequestFilter {
 
+    private static final String AUTH_HEADER = "Authorization";
+    private static final String BEARER_PREFIX = "Bearer ";
+
     private UsuarioRepository usuarioRepository;
 
     private TokenService tokenService;
@@ -25,12 +28,12 @@ public class AutenticacaoViaTokenFilter extends OncePerRequestFilter {
     }
 
     private String recuperarToken(HttpServletRequest request) {
-        String token = request.getHeader("Authorization");
+        String token = request.getHeader(AUTH_HEADER);
 
-        if (token == null || token.isEmpty() || token.startsWith("Bearer")) {
+        if (Strings.isBlank(token) || !token.startsWith(BEARER_PREFIX)) {
             return null;
         } else {
-            return token.substring(7, token.length());
+            return token.substring(7);
         }
     }
 
