@@ -1,6 +1,7 @@
 package br.com.kitchen.club.service;
 
 import br.com.kitchen.club.bases.BaseService;
+import br.com.kitchen.club.config.webclient.RestClient;
 import br.com.kitchen.club.dto.request.IngredientesRequest;
 import br.com.kitchen.club.entity.Ingredientes;
 import br.com.kitchen.club.entity.enums.GrupoAlimentar;
@@ -19,7 +20,7 @@ public class IngredientesService extends BaseService {
     @Autowired
     private IngredientesRepository repository;
 
-    public IngredientesService() {
+    public IngredientesService(RestClient restClient) {
         super(restClient);
     }
 
