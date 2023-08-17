@@ -5,7 +5,6 @@ import br.com.kitchen.club.dto.request.IngredientesRequest;
 import br.com.kitchen.club.entity.Ingredientes;
 import br.com.kitchen.club.entity.enums.GrupoAlimentar;
 import br.com.kitchen.club.repository.IngredientesRepository;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.http.HttpStatus;
@@ -19,6 +18,10 @@ public class IngredientesService extends BaseService {
 
     @Autowired
     private IngredientesRepository repository;
+
+    public IngredientesService() {
+        super(restClient);
+    }
 
     public ResponseEntity<Ingredientes> consultarTodosIngredientes(){
 
