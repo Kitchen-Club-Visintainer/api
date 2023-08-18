@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 import java.util.Objects;
 
 @Service
-public class IngredientesService extends BaseService {
+public class IngredientesService extends BaseService<Ingredientes> {
 
     @Autowired
     private IngredientesRepository repository;

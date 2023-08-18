@@ -125,7 +125,23 @@ public class Usuario implements UserDetails {
         this.despensas = despensas;
     }
 
-//  MÉTODOS VINDOS DA UserDetails
+    public Boolean getAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(Boolean ativo) {
+        this.ativo = ativo;
+    }
+
+    public PerfilUsuario getPerfilUsuario() {
+        return perfilUsuario;
+    }
+
+    public void setPerfilUsuario(PerfilUsuario perfilUsuario) {
+        this.perfilUsuario = perfilUsuario;
+    }
+
+    //  MÉTODOS VINDOS DA UserDetails
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

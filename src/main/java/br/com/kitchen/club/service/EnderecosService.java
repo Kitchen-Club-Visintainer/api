@@ -4,6 +4,7 @@ import br.com.kitchen.club.bases.BaseService;
 import br.com.kitchen.club.config.Util;
 import br.com.kitchen.club.config.webclient.RestClient;
 import br.com.kitchen.club.dto.response.ConsultaCepResponse;
+import br.com.kitchen.club.entity.Enderecos;
 import br.com.kitchen.club.repository.EnderecosRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -18,7 +19,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 @Service
-public class EnderecosService extends BaseService {
+public class EnderecosService extends BaseService<Enderecos> {
 
     @Value("${api.cep.endpoint:null}")
     private String API_CEP;

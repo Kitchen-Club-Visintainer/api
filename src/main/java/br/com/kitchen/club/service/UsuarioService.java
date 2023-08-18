@@ -4,16 +4,21 @@ import br.com.kitchen.club.bases.BaseService;
 import br.com.kitchen.club.config.exception.ParametroException;
 import br.com.kitchen.club.config.webclient.RestClient;
 import br.com.kitchen.club.dto.request.CadastroRequest;
+import br.com.kitchen.club.dto.request.UsuarioShallowDto;
+import br.com.kitchen.club.entity.Usuario;
 import br.com.kitchen.club.entity.enums.Uf;
 import br.com.kitchen.club.mapper.UsuarioMapper;
 import br.com.kitchen.club.repository.UsuarioRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.BeanUtils;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Optional;
+
 @Service
-public class UsuarioService extends BaseService {
+public class UsuarioService extends BaseService<Usuario> {
 
     private final UsuarioRepository usuarioRepository;
     private final UsuarioMapper usuarioMapper;
@@ -29,6 +34,26 @@ public class UsuarioService extends BaseService {
         this.enderecosService = enderecosService;
     }
 
+    public List<Usuario> buscarTodosUsuarios() {
+        return findAll();
+    }
+
+    public Usuario buscarUsuario(Long id) throws ParametroException {
+        var usuarioOpt = findById(id);
+        if (usuarioOpt.isEmpty())
+            throw new ParametroException("ID do usuário não foi encontrado");
+        return usuarioOpt.get();
+    }
+
+    public Optional<Usuario> atualizarUsuario(UsuarioShallowDto usuarioShallowDto) throws ParametroException {
+        var usuario = buscarUsuarioPeloUsername(usuarioShallowDto.usuario());
+        if (usuario.isEmpty())
+            throw new ParametroException("Usuario " + usuarioShallowDto.usuario() + " não encontrado!");
+
+        BeanUtils.copyProperties(usuarioShallowDto, usuario.get());
+        return usuario;
+    }
+
     public void cadastrarNovoUsuario(CadastroRequest cadastro) throws ParametroException {
         verificarExistenciaUsuario(cadastro);
         validarSenha(cadastro);
@@ -38,10 +63,15 @@ public class UsuarioService extends BaseService {
         save(usuario);
     }
 
-    private void verificarExistenciaUsuario(CadastroRequest cadstro) throws ParametroException {
-        var usuarioCadastrado = usuarioRepository.findByUsuario(cadstro.username());
-        if (usuarioCadastrado.isPresent())
+    private Optional<Usuario> buscarUsuarioPeloUsername(String username) {
+        return usuarioRepository.findByUsuario(username);
+    }
+
+    private void verificarExistenciaUsuario(CadastroRequest cadastro) throws ParametroException {
+        var usuarioCadastrado = buscarUsuarioPeloUsername(cadastro.username());
+        if (usuarioCadastrado.isPresent()) {
             throw new ParametroException("Usuário já está cadastrado no sistema");
+        }
         logger.info("USUÁRIO NÃO EXISTE AINDA NO SISTEMA");
     }
 

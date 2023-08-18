@@ -22,16 +22,20 @@ public abstract class BaseService<Entity> {
 
     public abstract JpaRepository<Entity, Long> getRepository();
 
-    public List<Entity> findAll(){
+    public List<Entity> findAll() {
         return getRepository().findAll();
     }
 
-    public Optional<Entity> findById(Long id){
+    public Optional<Entity> findById(Long id) {
         return getRepository().findById(id);
     }
 
-    public void save(Entity entity){
+    public void save(Entity entity) {
         getRepository().save(entity);
+    }
+
+    public void delete(Entity entity) {
+        getRepository().delete(entity);
     }
 
 
