@@ -1,11 +1,11 @@
 package br.com.kitchen.club.entity;
 
 import br.com.kitchen.club.entity.enums.PerfilUsuario;
+import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import javax.persistence.*;
 import java.util.Collection;
 import java.util.List;
 

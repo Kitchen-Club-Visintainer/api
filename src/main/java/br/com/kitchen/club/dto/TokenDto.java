@@ -9,10 +9,6 @@ public class TokenDto {
         this.tipo = tipo;
     }
 
-    public TokenDto(String token) {
-        this.token = token;
-    }
-
     public String getToken() {
         return token;
     }

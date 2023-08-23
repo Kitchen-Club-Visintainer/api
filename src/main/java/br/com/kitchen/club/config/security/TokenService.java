@@ -1,9 +1,9 @@
 package br.com.kitchen.club.config.security;
 
 import br.com.kitchen.club.entity.Usuario;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.JWTVerificationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -29,28 +29,23 @@ public class TokenService {
         Date hoje = new Date();
         Date dataExpiracao = new Date(hoje.getTime() + Long.parseLong(expiration));
 
-        return Jwts.builder()
-                .setIssuer("API Kitchen Club")
-                .setSubject(logado.getId().toString())
-                .setIssuedAt(hoje)
-                .setExpiration(dataExpiracao)
-                .signWith(SignatureAlgorithm.HS256, secret)
-                .compact();
+        Algorithm algorithm = Algorithm.HMAC256(secret);
+        return JWT.create()
+                .withSubject(logado.getUsername())
+                .withExpiresAt(dataExpiracao)
+                .sign(algorithm);
     }
 
-    public Boolean isTokenValido(String token) {
+    public String buscarSubject(String token) {
         try {
-            Jwts.parser().setSigningKey(this.secret).parseClaimsJws(token);
-            return true;
-        } catch (Exception e) {
-            logger.error("Falha na autenticação" + e);
-            return false;
-        }
-    }
+            Algorithm algorithm = Algorithm.HMAC256(secret);
 
-    public Long getIdUsuario(String token) {
-        Claims body = Jwts.parser().setSigningKey(this.secret).parseClaimsJws(token).getBody();
-        String id = body.getSubject();
-        return Long.parseLong(id);
+            return JWT.require(algorithm)
+                    .build()
+                    .verify(token)
+                    .getSubject();
+        } catch (JWTVerificationException e) {
+            throw new SecurityException("FALHA NA AUTENTICAÇÃO");
+        }
     }
 }

@@ -4,6 +4,7 @@ import br.com.kitchen.club.config.security.TokenService;
 import br.com.kitchen.club.dto.TokenDto;
 import br.com.kitchen.club.dto.request.LoginDTO;
 import br.com.kitchen.club.dto.response.Response;
+import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -19,8 +20,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/auth")
@@ -79,10 +78,8 @@ public class AuthController {
                 new UsernamePasswordAuthenticationToken(authenticationDto.getNome(), authenticationDto.getSenha()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationDto.getNome());
-//        String token = jwtTokenUtil.obterToken(userDetails);
         String token = tokenService.gerarToken(authentication);
-        response.setData(new TokenDto(token));
+        response.setData(new TokenDto(token, "Bearer"));
 
         return ResponseEntity.ok(response);
     }

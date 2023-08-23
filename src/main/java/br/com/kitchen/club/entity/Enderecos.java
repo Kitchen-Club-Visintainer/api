@@ -1,8 +1,7 @@
 package br.com.kitchen.club.entity;
 
 import br.com.kitchen.club.entity.enums.Uf;
-
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Entity
 public class Enderecos {

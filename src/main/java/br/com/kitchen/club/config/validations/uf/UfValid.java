@@ -1,7 +1,8 @@
 package br.com.kitchen.club.config.validations.uf;
 
-import javax.validation.Constraint;
-import javax.validation.Payload;
+import jakarta.validation.Constraint;
+import jakarta.validation.Payload;
+
 import java.lang.annotation.*;
 
 @Documented

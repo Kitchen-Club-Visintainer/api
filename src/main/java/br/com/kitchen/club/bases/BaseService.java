@@ -1,11 +1,11 @@
 package br.com.kitchen.club.bases;
 
 import br.com.kitchen.club.config.webclient.RestClient;
+import jakarta.transaction.Transactional;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 

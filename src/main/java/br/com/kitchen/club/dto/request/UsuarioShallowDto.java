@@ -1,8 +1,8 @@
 package br.com.kitchen.club.dto.request;
 
 import br.com.kitchen.club.entity.Usuario;
+import jakarta.validation.constraints.NotBlank;
 
-import javax.validation.constraints.NotBlank;
 import java.util.Objects;
 
 public record UsuarioShallowDto(

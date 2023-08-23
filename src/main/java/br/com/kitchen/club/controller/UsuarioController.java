@@ -7,12 +7,12 @@ import br.com.kitchen.club.dto.request.UsuarioShallowDto;
 import br.com.kitchen.club.dto.response.UsuarioDto;
 import br.com.kitchen.club.entity.Usuario;
 import br.com.kitchen.club.service.UsuarioService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @RestController

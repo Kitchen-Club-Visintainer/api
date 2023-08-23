@@ -1,9 +1,9 @@
 package br.com.kitchen.club.config.validations.uf;
 
 import br.com.kitchen.club.entity.enums.Uf;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
 
 import static java.util.Arrays.stream;
 
