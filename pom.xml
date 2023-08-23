@@ -88,6 +88,6 @@
 
 
   <build>
-    <finalName>forum</finalName>
+    <finalName>${artifactId}</finalName>
   </build>
 </project>
