@@ -13,6 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
@@ -47,6 +48,7 @@ public class WebSecurity {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
+                .addFilterBefore(new CorsFilter(corsConfigurationSource()), CorsFilter.class)
                 .authorizeHttpRequests(request -> request.requestMatchers("/auth/**", "/actuator/**")
                         .permitAll().anyRequest().authenticated())
                 .addFilterBefore(new AutenticacaoViaTokenFilter(usuarioRepository, tokenService), UsernamePasswordAuthenticationFilter.class)
@@ -54,7 +56,7 @@ public class WebSecurity {
     }
 
     @Bean
-    public CorsFilter corsFilter() {
+    public CorsConfigurationSource corsConfigurationSource() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
@@ -66,7 +68,7 @@ public class WebSecurity {
         config.addAllowedMethod(HttpMethod.DELETE);
         config.addAllowedMethod(HttpMethod.OPTIONS);
         source.registerCorsConfiguration("/**", config);
-        return new CorsFilter(source);
+        return source;
     }
 
 
