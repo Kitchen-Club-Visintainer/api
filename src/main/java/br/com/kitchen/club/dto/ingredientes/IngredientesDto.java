@@ -1,6 +1,6 @@
-package br.com.kitchen.club.dto.request;
+package br.com.kitchen.club.dto.ingredientes;
 
-public record IngredientesRequest(
+public record IngredientesDto(
         String nome,
         String valorNutricional,
         String grupoAlimentar) { }

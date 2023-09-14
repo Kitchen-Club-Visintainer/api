@@ -12,4 +12,9 @@ public class Util {
             throw new RuntimeException(e);
         }
     }
+
+    public static String toCaptalize(String input) {
+        String INPUT = input.trim();
+        return INPUT.substring(0, 1).toUpperCase() + INPUT.substring(1);
+    }
 }

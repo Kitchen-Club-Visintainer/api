@@ -38,5 +38,6 @@ public abstract class BaseService<Entity> {
         getRepository().delete(entity);
     }
 
+    public abstract void validateUser(String username);
 
 }

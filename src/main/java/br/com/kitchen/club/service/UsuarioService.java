@@ -57,13 +57,13 @@ public class UsuarioService extends BaseService<Usuario> {
     public void cadastrarNovoUsuario(CadastroRequest cadastro) throws ParametroException {
         verificarExistenciaUsuario(cadastro);
         validarSenha(cadastro);
-        validarCep(cadastro);
+        enderecosService.validarCep(cadastro);
 
         var usuario = usuarioMapper.dtoToEntity(cadastro);
         save(usuario);
     }
 
-    private Optional<Usuario> buscarUsuarioPeloUsername(String username) {
+    public Optional<Usuario> buscarUsuarioPeloUsername(String username) {
         return usuarioRepository.findByUsuario(username);
     }
 
@@ -81,21 +81,13 @@ public class UsuarioService extends BaseService<Usuario> {
         logger.info("SENHAS COMBINAM");
     }
 
-    private void validarCep(CadastroRequest cadastro) throws ParametroException {
-        logger.info("VALIDAÇÃO CEP");
-        try {
-            var consulta = enderecosService.procurarCep(cadastro.cep());
-            if (consulta.isPresent()) {
-                if (!consulta.get().uf().equals(Uf.fromUF(cadastro.uf()).sigla()))
-                    throw new ParametroException("UF informada não é válida");
-            }
-        } catch (JsonProcessingException e) {
-            throw new ParametroException("Erro na validação do CEP");
-        }
-    }
-
     @Override
     public JpaRepository getRepository() {
         return usuarioRepository;
+    }
+
+    @Override
+    public void validateUser(String username) {
+        verificarExistenciaUsuario(CadastroRequest.of(username));
     }
 }

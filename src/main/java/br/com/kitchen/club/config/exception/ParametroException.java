@@ -1,6 +1,6 @@
 package br.com.kitchen.club.config.exception;
 
-public class ParametroException extends Exception {
+public class ParametroException extends RuntimeException {
 
     public ParametroException() {
     }

@@ -36,9 +36,6 @@ public class Usuario implements UserDetails {
     @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<LivroReceita> livroReceitas;
 
-    @OneToMany(mappedBy = "usuario", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private List<Despensa> despensas;
-
     public Usuario() {
     }
 
@@ -115,14 +112,6 @@ public class Usuario implements UserDetails {
 
     public void setLivroReceitas(List<LivroReceita> livroReceitas) {
         this.livroReceitas = livroReceitas;
-    }
-
-    public List<Despensa> getDespensas() {
-        return despensas;
-    }
-
-    public void setDespensas(List<Despensa> despensas) {
-        this.despensas = despensas;
     }
 
     public Boolean getAtivo() {

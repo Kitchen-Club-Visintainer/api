@@ -3,8 +3,6 @@ package br.com.kitchen.club.entity;
 import br.com.kitchen.club.entity.enums.GrupoAlimentar;
 import jakarta.persistence.*;
 
-import java.util.List;
-
 @Entity
 public class Ingredientes {
 
@@ -19,15 +17,12 @@ public class Ingredientes {
     @Enumerated(EnumType.STRING)
     private GrupoAlimentar grupoAlimentar;
 
-    @OneToMany(mappedBy = "ingredientes", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private List<Receita> receita;
-
-    public List<Receita> getReceita() {
-        return receita;
+    public Ingredientes() {
     }
 
-    public void setReceita(List<Receita> receita) {
-        this.receita = receita;
+    public Ingredientes(String nome, String valorNutricional) {
+        this.nome = nome;
+        this.valorNutricional = valorNutricional;
     }
 
     public Long getId() {
@@ -60,5 +55,15 @@ public class Ingredientes {
 
     public void setGrupoAlimentar(GrupoAlimentar grupoAlimentar) {
         this.grupoAlimentar = grupoAlimentar;
+    }
+
+    @Override
+    public String toString() {
+        return "Ingredientes{" +
+                "id=" + id +
+                ", nome='" + nome + '\'' +
+                ", valorNutricional='" + valorNutricional + '\'' +
+                ", grupoAlimentar=" + grupoAlimentar +
+                '}';
     }
 }

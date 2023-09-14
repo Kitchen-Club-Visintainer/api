@@ -30,4 +30,7 @@ public record CadastroRequest(
         @UfValid(message = "UF INVÁLIDA -> Informar o nome do estado")
         String uf
 ) {
+    public static CadastroRequest of(String username) {
+        return new CadastroRequest(null, username, null, null, null, null, null, null, null, null);
+    }
 }
