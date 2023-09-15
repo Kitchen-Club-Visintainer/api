@@ -34,11 +34,33 @@ public class IngredientesService extends BaseService<Ingredientes> {
         if (ingredienteCadastrado.isPresent())
             return ingredienteCadastrado.get();
 
-        var ingredientes = new Ingredientes(toCaptalize(request.nome()), request.valorNutricional());
-        if (Objects.nonNull(request.grupoAlimentar()))
-            ingredientes.setGrupoAlimentar(GrupoAlimentar.valueOf(request.grupoAlimentar()));
+        var ingredientes = convertDtoToEntity(request);
 
         save(ingredientes);
+        return ingredientes;
+    }
+
+    public Ingredientes atualizarIngrediente(IngredientesDto request) {
+        var ingredientes = buscarIngredienteCadastrado(toCaptalize(request.nome()))
+                .map(ing -> {
+                    ing.setNome(request.nome());
+                    ing.setValorNutricional(request.valorNutricional());
+                    ing.setGrupoAlimentar(GrupoAlimentar.valueOf(request.grupoAlimentar()));
+                    return ing;
+                });
+
+        if (ingredientes.isPresent()) {
+            save(ingredientes.get());
+            return ingredientes.get();
+        } else {
+            throw new ParametroException("Ingrediente não foi encontrado");
+        }
+    }
+
+    private Ingredientes convertDtoToEntity(IngredientesDto ingredientesDto) {
+        var ingredientes = new Ingredientes(toCaptalize(ingredientesDto.nome()), ingredientesDto.valorNutricional());
+        if (Objects.nonNull(ingredientesDto.grupoAlimentar()))
+            ingredientes.setGrupoAlimentar(GrupoAlimentar.valueOf(ingredientesDto.grupoAlimentar()));
         return ingredientes;
     }
 
