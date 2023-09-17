@@ -12,14 +12,15 @@ public class ItensReceita {
 
     private Float quantidade;
 
+    @Enumerated(EnumType.STRING)
     private MedidasCulinarias unidadeMedida;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "ingredientes_id")
+    @JoinColumn()
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Ingredientes ingredientes;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "receita_id")
+    @JoinColumn()
+    @ManyToOne(fetch = FetchType.LAZY)
     private Receita receita;
 
 
@@ -61,5 +62,16 @@ public class ItensReceita {
 
     public void setReceita(Receita receita) {
         this.receita = receita;
+    }
+
+    @Override
+    public String toString() {
+        return "ItensReceita{" +
+                "id=" + id +
+                ", quantidade=" + quantidade +
+                ", unidadeMedida=" + unidadeMedida +
+                ", ingredientes=" + ingredientes +
+                ", receita=" + receita +
+                '}';
     }
 }

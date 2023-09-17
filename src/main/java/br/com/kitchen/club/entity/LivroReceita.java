@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import java.util.List;
 
 @Entity
+@Table(name = "livro_receita")
 public class LivroReceita {
 
     @Id
@@ -11,7 +12,7 @@ public class LivroReceita {
     private Long id;
 
     @ManyToMany
-    @JoinTable(name = "receita",
+    @JoinTable(name = "receita_livro",
             joinColumns = @JoinColumn(name = "receita_id"),
             inverseJoinColumns = @JoinColumn(name = "livro_receita_id"))
     private List<Receita> receita;
@@ -27,6 +28,9 @@ public class LivroReceita {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;
+
+    public LivroReceita() {
+    }
 
     public Long getId() {
         return id;

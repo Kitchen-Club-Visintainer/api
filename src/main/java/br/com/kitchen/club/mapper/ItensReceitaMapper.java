@@ -1,7 +1,7 @@
 package br.com.kitchen.club.mapper;
 
 import br.com.kitchen.club.config.exception.ParametroException;
-import br.com.kitchen.club.dto.receitas.ItensReceitaDto;
+import br.com.kitchen.club.dto.itensReceita.ItensReceitaDto;
 import br.com.kitchen.club.entity.ItensReceita;
 import br.com.kitchen.club.entity.enums.MedidasCulinarias;
 import br.com.kitchen.club.service.IngredientesService;

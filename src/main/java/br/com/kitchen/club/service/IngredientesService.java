@@ -69,7 +69,7 @@ public class IngredientesService extends BaseService<Ingredientes> {
     }
 
     public Ingredientes buscarIngredienteCadastradoPorId(Long id) {
-        var ingrediente = repository.findById(id);
+        var ingrediente = findById(id);
         if (ingrediente.isPresent())
             return ingrediente.get();
         throw new ParametroException("Nenhum ingrediente encontrado com o ID: " + id);

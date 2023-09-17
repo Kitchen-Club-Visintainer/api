@@ -1,23 +1,49 @@
 package br.com.kitchen.club.service;
 
 import br.com.kitchen.club.bases.BaseService;
+import br.com.kitchen.club.bases.ServiceContract;
 import br.com.kitchen.club.config.exception.ParametroException;
 import br.com.kitchen.club.config.webclient.RestClient;
+import br.com.kitchen.club.dto.itensReceita.ItensReceitaDto;
+import br.com.kitchen.club.dto.itensReceita.ItensReceitaShallowDto;
+import br.com.kitchen.club.dto.receitas.ReceitaDto;
+import br.com.kitchen.club.dto.receitas.ReceitaShallowDto;
 import br.com.kitchen.club.entity.Receita;
+import br.com.kitchen.club.mapper.ItensReceitaMapper;
+import br.com.kitchen.club.repository.ItensReceitaRepository;
 import br.com.kitchen.club.repository.ReceitaRepository;
+import org.hibernate.Hibernate;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
-public class ReceitaService extends BaseService<Receita> {
+public class ReceitaService extends BaseService<Receita> implements ServiceContract<Receita, ReceitaDto, ReceitaShallowDto> {
 
     private final ReceitaRepository receitaRepository;
     private final UsuarioService usuarioService;
+    private final ItensReceitaMapper itensMapper;
+    private final LivroReceitaService livroReceitaService;
+    private final ItensReceitaRepository itensReceitaRepository;
 
-    protected ReceitaService(RestClient restClient, ReceitaRepository receitaRepository, UsuarioService usuarioService) {
+
+    protected ReceitaService(RestClient restClient,
+                             ReceitaRepository receitaRepository,
+                             UsuarioService usuarioService,
+                             ItensReceitaMapper itensMapper,
+                             LivroReceitaService livroReceitaService,
+                             ItensReceitaRepository itensReceitaRepository) {
         super(restClient);
         this.receitaRepository = receitaRepository;
         this.usuarioService = usuarioService;
+        this.itensMapper = itensMapper;
+        this.livroReceitaService = livroReceitaService;
+        this.itensReceitaRepository = itensReceitaRepository;
     }
 
     @Override
@@ -29,5 +55,52 @@ public class ReceitaService extends BaseService<Receita> {
     public void validateUser(String username) {
         usuarioService.buscarUsuarioPeloUsername(username)
                 .orElseThrow(() -> new ParametroException("Usuário não encontrado"));
+    }
+
+    @Override
+    public Receita cadastrarEntidade(ReceitaDto receitaDto, String currentUser) {
+        var itensReceitaList = receitaDto.itensReceitaDtos().stream()
+                .map(itensMapper::toEntity).toList();
+        itensReceitaRepository.saveAll(itensReceitaList);
+
+        var livroReceita = livroReceitaService.buscarLivroReceita(currentUser);
+        var receita = new Receita(receitaDto.nomeReceita(), itensReceitaList, livroReceita);
+        save(receita);
+
+        return receita;
+    }
+
+    @Override
+    public Receita atualizarEntidade() {
+        return null;
+    }
+
+    @Override
+    public ReceitaDto buscarEntidadePorId(Long id) {
+        var receitaDto = receitaRepository.findById(id).map(r -> {
+            var itensReceitaDtos = r.getItensReceitas().stream().map(item ->
+                    new ItensReceitaDto(
+                            item.getIngredientes().getNome(),
+                            item.getQuantidade().toString(),
+                            item.getUnidadeMedida().getDescricao())).toList();
+
+            var livrosId = r.getLivroReceita().stream()
+                    .map(livro -> livro.getId().intValue()).toList();
+
+            return new ReceitaDto(r.getNomeReceita(), livrosId, itensReceitaDtos);
+        });
+        if (receitaDto.isPresent())
+            return receitaDto.get();
+        throw new ParametroException("Nenhuma receita foi encontrada com o ID: " + id);
+    }
+
+    @Override
+    public List<ReceitaShallowDto> buscarTodosEntidade() {
+        var receitaList = findAll();
+        return receitaList.stream().map(receita -> {
+            var itensReceitaShallowDtos = receita.getItensReceitas().stream()
+                    .map(item -> new ItensReceitaShallowDto(item.getIngredientes().getNome())).toList();
+            return new ReceitaShallowDto(receita.getNomeReceita(), itensReceitaShallowDtos);
+        }).toList();
     }
 }
