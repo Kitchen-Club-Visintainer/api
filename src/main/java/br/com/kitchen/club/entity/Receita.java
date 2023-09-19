@@ -15,13 +15,18 @@ public class Receita {
     @Column(name = "nome_receita")
     private String nomeReceita;
 
-    @OneToMany(mappedBy = "receita", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "receita", fetch = FetchType.EAGER, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     private List<ItensReceita> itensReceitas;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     private List<LivroReceita> livroReceita;
 
     public Receita() {
+    }
+
+    public Receita(String nomeReceita, List<LivroReceita> livroReceita) {
+        this.nomeReceita = nomeReceita;
+        this.livroReceita = livroReceita;
     }
 
     public Receita(String nomeReceita, List<ItensReceita> itensReceitas, List<LivroReceita> livroReceita) {

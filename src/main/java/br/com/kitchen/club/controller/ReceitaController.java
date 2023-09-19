@@ -50,7 +50,7 @@ public class ReceitaController extends BaseController<Receita, ReceitaDto, Recei
     }
 
     @Override
-    public ResponseEntity<String> update(ReceitaDto receitaDto) {
+    public ResponseEntity<String> update(@Valid @RequestBody ReceitaDto receitaDto, @PathVariable Long id) {
         return null;
     }
 }

@@ -33,7 +33,7 @@ public class LivroReceitaService extends BaseService<LivroReceita> {
         return usuarioService.buscarUsuarioPeloUsername(username)
                 .map(user -> {
                     var livroOpt = repository.findByUsuario(user);
-                    if (livroOpt.isPresent())
+                    if (livroOpt.isPresent() && (!livroOpt.get().isEmpty()))
                         return livroOpt.get();
                     return List.of(criarLivroReceitas(user));
                 }).orElseThrow(() -> new ServiceException("Usuário não identificado"));

@@ -15,8 +15,6 @@ public abstract class BaseController<Entity, Filter, ShallowDto, EntityService e
 
     protected abstract EntityService getEntityService();
 
-    private final EntityService entityService = getEntityService();
-
     @GetMapping(value = "/listAll")
     abstract public ResponseEntity<List<ShallowDto>> listAll();
 
@@ -27,12 +25,12 @@ public abstract class BaseController<Entity, Filter, ShallowDto, EntityService e
     abstract public ResponseEntity<String> createNew(@RequestBody @Valid Filter filter) throws NotImplementedException;
 
     @PutMapping(value = "/{id}")
-    abstract public ResponseEntity<String> update(@RequestBody @Valid Filter filter);
+    abstract public ResponseEntity<String> update(@RequestBody @Valid Filter filter, @PathVariable Long id);
 
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<String> delete(@PathVariable Long id) {
-        Optional<Entity> entity = entityService.findById(id);
-        entity.ifPresentOrElse(entityService::delete,
+        Optional<Entity> entity = getEntityService().findById(id);
+        entity.ifPresentOrElse(getEntityService()::delete,
                 () -> {
                     throw new ParametroException("Não foi possível encontrar o parâmetro de id: " + id);
                 });

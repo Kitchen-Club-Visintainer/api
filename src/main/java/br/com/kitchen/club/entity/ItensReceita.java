@@ -20,7 +20,7 @@ public class ItensReceita {
     private Ingredientes ingredientes;
 
     @JoinColumn()
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     private Receita receita;
 
 

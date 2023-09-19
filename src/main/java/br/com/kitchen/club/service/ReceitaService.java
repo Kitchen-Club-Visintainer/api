@@ -12,15 +12,11 @@ import br.com.kitchen.club.entity.Receita;
 import br.com.kitchen.club.mapper.ItensReceitaMapper;
 import br.com.kitchen.club.repository.ItensReceitaRepository;
 import br.com.kitchen.club.repository.ReceitaRepository;
-import org.hibernate.Hibernate;
+import org.springframework.beans.BeanUtils;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class ReceitaService extends BaseService<Receita> implements ServiceContract<Receita, ReceitaDto, ReceitaShallowDto> {
@@ -59,19 +55,26 @@ public class ReceitaService extends BaseService<Receita> implements ServiceContr
 
     @Override
     public Receita cadastrarEntidade(ReceitaDto receitaDto, String currentUser) {
-        var itensReceitaList = receitaDto.itensReceitaDtos().stream()
-                .map(itensMapper::toEntity).toList();
-        itensReceitaRepository.saveAll(itensReceitaList);
-
         var livroReceita = livroReceitaService.buscarLivroReceita(currentUser);
-        var receita = new Receita(receitaDto.nomeReceita(), itensReceitaList, livroReceita);
+        //TODO: ler quais são os livros de receitas que serão salvos para cadastrar nos livros solicitados na requisção
+
+        var receita = new Receita(receitaDto.nomeReceita(), livroReceita);
         save(receita);
 
+        receitaDto.itensReceitaDtos()
+                .forEach(itensDto -> {
+                    var item = itensMapper.toEntity(itensDto);
+                    item.setReceita(receita);
+                    itensReceitaRepository.save(item);
+                });
         return receita;
     }
 
     @Override
-    public Receita atualizarEntidade() {
+    public Receita atualizarEntidade(ReceitaDto receitaDto, Long id) {
+        ReceitaDto receitaCadastradaDto = buscarEntidadePorId(id);
+        BeanUtils.copyProperties(receitaDto, receitaCadastradaDto);
+//        save(receitaCadastradaDto);
         return null;
     }
 

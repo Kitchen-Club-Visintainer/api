@@ -7,7 +7,7 @@ public interface ServiceContract<Entity, Filter, ShallowDto> {
 
     public Entity cadastrarEntidade(Filter filter, String currentUser);
 
-    public Entity atualizarEntidade();
+    public Entity atualizarEntidade(Filter filter, Long id);
 
     public Filter buscarEntidadePorId(Long id);
 
