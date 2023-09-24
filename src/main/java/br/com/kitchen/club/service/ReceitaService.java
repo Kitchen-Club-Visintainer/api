@@ -8,6 +8,7 @@ import br.com.kitchen.club.dto.itensReceita.ItensReceitaDto;
 import br.com.kitchen.club.dto.itensReceita.ItensReceitaShallowDto;
 import br.com.kitchen.club.dto.receitas.ReceitaDto;
 import br.com.kitchen.club.dto.receitas.ReceitaShallowDto;
+import br.com.kitchen.club.entity.ItensReceita;
 import br.com.kitchen.club.entity.Receita;
 import br.com.kitchen.club.mapper.ItensReceitaMapper;
 import br.com.kitchen.club.repository.ItensReceitaRepository;
@@ -17,6 +18,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+
+import static org.springframework.data.repository.util.ClassUtils.ifPresent;
 
 @Service
 public class ReceitaService extends BaseService<Receita> implements ServiceContract<Receita, ReceitaDto, ReceitaShallowDto> {
@@ -26,6 +30,7 @@ public class ReceitaService extends BaseService<Receita> implements ServiceContr
     private final ItensReceitaMapper itensMapper;
     private final LivroReceitaService livroReceitaService;
     private final ItensReceitaRepository itensReceitaRepository;
+    private final ItensReceitaService itensReceitaService;
 
 
     protected ReceitaService(RestClient restClient,
@@ -33,13 +38,15 @@ public class ReceitaService extends BaseService<Receita> implements ServiceContr
                              UsuarioService usuarioService,
                              ItensReceitaMapper itensMapper,
                              LivroReceitaService livroReceitaService,
-                             ItensReceitaRepository itensReceitaRepository) {
+                             ItensReceitaRepository itensReceitaRepository,
+                             ItensReceitaService itensReceitaService) {
         super(restClient);
         this.receitaRepository = receitaRepository;
         this.usuarioService = usuarioService;
         this.itensMapper = itensMapper;
         this.livroReceitaService = livroReceitaService;
         this.itensReceitaRepository = itensReceitaRepository;
+        this.itensReceitaService = itensReceitaService;
     }
 
     @Override
@@ -55,7 +62,7 @@ public class ReceitaService extends BaseService<Receita> implements ServiceContr
 
     @Override
     public Receita cadastrarEntidade(ReceitaDto receitaDto, String currentUser) {
-        var livroReceita = livroReceitaService.buscarLivroReceita(currentUser);
+        var livroReceita = livroReceitaService.buscarLivroReceitaPorUsuario(currentUser);
         //TODO: ler quais são os livros de receitas que serão salvos para cadastrar nos livros solicitados na requisção
 
         var receita = new Receita(receitaDto.nomeReceita(), livroReceita);
@@ -72,10 +79,36 @@ public class ReceitaService extends BaseService<Receita> implements ServiceContr
 
     @Override
     public Receita atualizarEntidade(ReceitaDto receitaDto, Long id) {
-        ReceitaDto receitaCadastradaDto = buscarEntidadePorId(id);
-        BeanUtils.copyProperties(receitaDto, receitaCadastradaDto);
-//        save(receitaCadastradaDto);
+        Optional<Receita> receita = receitaRepository.findById(id);
+
+        if(receita.isPresent()) {
+            Receita receitaAtualizada = dtoToEntity(receitaDto, receita.get());
+            receitaRepository.save(receitaAtualizada);
+        }
+
         return null;
+    }
+
+    private Receita dtoToEntity(ReceitaDto receitaDto, Receita receita) {
+        receita.setNomeReceita(receitaDto.nomeReceita());
+
+        //TODO: apagar lista antiga
+        itensReceitaService.apagarItensDaReceita(receita);
+
+        List<ItensReceita> itensReceita = receitaDto.itensReceitaDtos().stream()
+                .map(itensDto -> {
+                    var item = itensMapper.toEntity(itensDto);
+                    item.setReceita(receita);
+                    itensReceitaRepository.save(item);
+                    return item;
+                }).toList();
+        receita.setItensReceitas(itensReceita);
+
+
+        receita.setLivroReceita(receitaDto.livroReceitaId().stream()
+                .map(livroReceitaService::buscarLivroReceitaPorId)
+                .toList());
+        return receita;
     }
 
     @Override

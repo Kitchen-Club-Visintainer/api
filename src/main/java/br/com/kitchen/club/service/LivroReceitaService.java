@@ -1,6 +1,7 @@
 package br.com.kitchen.club.service;
 
 import br.com.kitchen.club.bases.BaseService;
+import br.com.kitchen.club.config.exception.ParametroException;
 import br.com.kitchen.club.config.exception.ServiceException;
 import br.com.kitchen.club.config.webclient.RestClient;
 import br.com.kitchen.club.entity.LivroReceita;
@@ -10,7 +11,9 @@ import br.com.kitchen.club.repository.UsuarioRepository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class LivroReceitaService extends BaseService<LivroReceita> {
@@ -29,7 +32,7 @@ public class LivroReceitaService extends BaseService<LivroReceita> {
         this.usuarioService = usuarioService;
     }
 
-    public List<LivroReceita> buscarLivroReceita(String username) {
+    public List<LivroReceita> buscarLivroReceitaPorUsuario(String username) {
         return usuarioService.buscarUsuarioPeloUsername(username)
                 .map(user -> {
                     var livroOpt = repository.findByUsuario(user);
@@ -37,6 +40,15 @@ public class LivroReceitaService extends BaseService<LivroReceita> {
                         return livroOpt.get();
                     return List.of(criarLivroReceitas(user));
                 }).orElseThrow(() -> new ServiceException("Usuário não identificado"));
+    }
+
+    public LivroReceita buscarLivroReceitaPorId(Integer livroId) {
+        Optional<LivroReceita> livroReceita = findById(Long.parseLong(livroId.toString()));
+        if(livroReceita.isPresent()) {
+            return livroReceita.get();
+        } else {
+            throw new ParametroException("ID do Livro de receitas não foi encontrato");
+        }
     }
 
     private LivroReceita criarLivroReceitas(Usuario user) {

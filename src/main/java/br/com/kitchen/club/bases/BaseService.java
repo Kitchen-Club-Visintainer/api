@@ -38,6 +38,10 @@ public abstract class BaseService<Entity> {
         getRepository().delete(entity);
     }
 
+    public void deleteAll(List<Entity> entityList) {
+        getRepository().deleteAll(entityList);
+    }
+
     public abstract void validateUser(String username);
 
 }

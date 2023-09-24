@@ -64,14 +64,4 @@ public class ItensReceita {
         this.receita = receita;
     }
 
-    @Override
-    public String toString() {
-        return "ItensReceita{" +
-                "id=" + id +
-                ", quantidade=" + quantidade +
-                ", unidadeMedida=" + unidadeMedida +
-                ", ingredientes=" + ingredientes +
-                ", receita=" + receita +
-                '}';
-    }
 }
