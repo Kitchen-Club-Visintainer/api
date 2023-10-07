@@ -40,8 +40,8 @@ public class IngredientesService extends BaseService<Ingredientes> {
         return ingredientes;
     }
 
-    public Ingredientes atualizarIngrediente(IngredientesDto request) {
-        var ingredientes = buscarIngredienteCadastrado(toCaptalize(request.nome()))
+    public Ingredientes atualizarIngrediente(IngredientesDto request, Long id) {
+        var ingredientes = Optional.of(buscarIngredienteCadastradoPorId(id))
                 .map(ing -> {
                     ing.setNome(request.nome());
                     ing.setValorNutricional(request.valorNutricional());
@@ -49,12 +49,8 @@ public class IngredientesService extends BaseService<Ingredientes> {
                     return ing;
                 });
 
-        if (ingredientes.isPresent()) {
-            save(ingredientes.get());
-            return ingredientes.get();
-        } else {
-            throw new ParametroException("Ingrediente não foi encontrado");
-        }
+        save(ingredientes.get());
+        return ingredientes.get();
     }
 
     private Ingredientes convertDtoToEntity(IngredientesDto ingredientesDto) {
@@ -73,14 +69,13 @@ public class IngredientesService extends BaseService<Ingredientes> {
         if (ingrediente.isPresent())
             return ingrediente.get();
         throw new ParametroException("Nenhum ingrediente encontrado com o ID: " + id);
-
     }
 
     public List<IngredientesShallowDto> buscarTodosIngredientes() {
         var ingredientes = repository.findAll();
         List<IngredientesShallowDto> shallowDto = ingredientes.stream()
                 .map(ing -> {
-                    return new IngredientesShallowDto(ing.getNome(), ing.getGrupoAlimentar().getDescricao());
+                    return new IngredientesShallowDto(ing.getId(), ing.getNome(), ing.getGrupoAlimentar().getDescricao());
                 }).toList();
         return shallowDto;
     }

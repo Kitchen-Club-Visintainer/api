@@ -25,7 +25,7 @@ public abstract class BaseController<Entity, Filter, ShallowDto, EntityService e
     abstract public ResponseEntity<String> createNew(@RequestBody @Valid Filter filter) throws NotImplementedException;
 
     @PutMapping(value = "/{id}")
-    abstract public ResponseEntity<String> update(@RequestBody @Valid Filter filter, @PathVariable Long id);
+    abstract public ResponseEntity<Entity> update(@RequestBody @Valid Filter filter, @PathVariable Long id);
 
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<String> delete(@PathVariable Long id) {

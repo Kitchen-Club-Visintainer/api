@@ -3,6 +3,7 @@ package br.com.kitchen.club.controller;
 import br.com.kitchen.club.bases.BaseController;
 import br.com.kitchen.club.dto.receitas.ReceitaDto;
 import br.com.kitchen.club.dto.receitas.ReceitaShallowDto;
+import br.com.kitchen.club.entity.Ingredientes;
 import br.com.kitchen.club.entity.Receita;
 import br.com.kitchen.club.service.ReceitaService;
 import jakarta.validation.Valid;
@@ -50,7 +51,7 @@ public class ReceitaController extends BaseController<Receita, ReceitaDto, Recei
     }
 
     @Override
-    public ResponseEntity<String> update(@Valid @RequestBody ReceitaDto receitaDto, @PathVariable Long id) {
+    public ResponseEntity<Receita> update(@Valid @RequestBody ReceitaDto receitaDto, @PathVariable Long id) {
         return null;
     }
 }
