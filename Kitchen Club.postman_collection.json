@@ -1,31 +1,234 @@
 {
 	"info": {
-		"_postman_id": "03817eb8-44d0-47ce-9372-777dc8f62307",
-		"name": "Kitchen Club",
+		"_postman_id": "704c3f56-a988-4b37-93f0-ef6434e696e0",
+		"name": "Kitchen Club MVP",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "19293512"
 	},
 	"item": [
 		{
-			"name": "Response Teste",
-			"request": {
-				"auth": {
-					"type": "bearer"
+			"name": "INGREDIENTES",
+			"item": [
+				{
+					"name": "CADASTRAR INGREDIENTE",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nome\": \"Chocolate\",\n  \"valorNutricional\": \"50 kcal/g\", \n  \"grupoAlimentar\": \"DOCES\"\n}\n\n\n\n\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}{{uri_ingredientes}}",
+							"host": [
+								"{{url}}{{uri_ingredientes}}"
+							]
+						}
+					},
+					"response": []
 				},
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "localhost:8080/ingredientes",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"ingredientes"
-					]
+				{
+					"name": "CADASTRAR INGREDIENTE default",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nome\": \"Azeite\",\n  \"valorNutricional\": \"120 kcal por 100ml\",\n  \"grupoAlimentar\": \"GORDURAS\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}{{uri_ingredientes}}/new",
+							"host": [
+								"{{url}}{{uri_ingredientes}}"
+							],
+							"path": [
+								"new"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ATUALIZAR INGREDIENTE",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nome\": \"Azeite\",\n    \"valorNutricional\": \"110 kcal por 100ml\",\n    \"grupoAlimentar\": \"GORDURAS\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}{{uri_ingredientes}}/5",
+							"host": [
+								"{{url}}{{uri_ingredientes}}"
+							],
+							"path": [
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CADASTRAR LISTA INGREDIENTES",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n  {\n    \"nome\": \"Arroz\",\n    \"valorNutricional\": \"130 kcal por 100g\",\n    \"grupoAlimentar\": \"CARBOIDRATOS\"\n  },\n  {\n    \"nome\": \"Feijão\",\n    \"valorNutricional\": \"340 kcal por 100g\",\n    \"grupoAlimentar\": \"LEGUMINOSAS\"\n  },\n  {\n    \"nome\": \"Frango\",\n    \"valorNutricional\": \"165 kcal por 100g\",\n    \"grupoAlimentar\": \"PROTEINAS\"\n  },\n  {\n    \"nome\": \"Cenoura\",\n    \"valorNutricional\": \"41 kcal por 100g\",\n    \"grupoAlimentar\": \"VEGETAIS\"\n  },\n  {\n    \"nome\": \"Ovos\",\n    \"valorNutricional\": \"155 kcal por 100g\",\n    \"grupoAlimentar\": \"PROTEINAS\"\n  },\n  {\n    \"nome\": \"Tomate\",\n    \"valorNutricional\": \"18 kcal por 100g\",\n    \"grupoAlimentar\": \"VEGETAIS\"\n  },\n  {\n    \"nome\": \"Maçã\",\n    \"valorNutricional\": \"52 kcal por 100g\",\n    \"grupoAlimentar\": \"FRUTAS\"\n  },\n  {\n    \"nome\": \"Leite\",\n    \"valorNutricional\": \"42 kcal por 100ml\",\n    \"grupoAlimentar\": \"LATICINIOS\"\n  },\n  {\n    \"nome\": \"Azeite\",\n    \"valorNutricional\": \"120 kcal por 100ml\",\n    \"grupoAlimentar\": \"GORDURAS\"\n  },\n  {\n    \"nome\": \"Espinafre\",\n    \"valorNutricional\": \"23 kcal por 100g\",\n    \"grupoAlimentar\": \"VEGETAIS\"\n  }\n]\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}{{uri_ingredientes}}/list",
+							"host": [
+								"{{url}}{{uri_ingredientes}}"
+							],
+							"path": [
+								"list"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "LISTAR TODOS",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}{{uri_ingredientes}}/listAll",
+							"host": [
+								"{{url}}{{uri_ingredientes}}"
+							],
+							"path": [
+								"listAll"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "BUSCAR POR ID",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}{{uri_ingredientes}}/5",
+							"host": [
+								"{{url}}{{uri_ingredientes}}"
+							],
+							"path": [
+								"5"
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
+			]
 		},
 		{
 			"name": "Actuator",
@@ -41,36 +244,6 @@
 					"port": "8080",
 					"path": [
 						"actuator"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Request Teste",
-			"request": {
-				"auth": {
-					"type": "bearer"
-				},
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"nome\": \"teste\",\n    \"valorNutricional\": \"100kcal\",\n    \"grupoAlimentar\": \"CARBOIDRATOS\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "localhost:8080/auth",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"auth"
 					]
 				}
 			},
@@ -103,13 +276,23 @@
 			"response": []
 		},
 		{
-			"name": "NOVO_USUARIO",
+			"name": "NOVO USUARIO",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"nomeCompleto\": \"davi\",\n    \"username\": \"Davi\",\n    \"email\": \"eusoudavi@gmail.com\",\n    \"senha\": \"abc1234\",\n    \"confSenha\": \"abc1234\",\n    \"cep\": \"72300603\",\n    \"logradouro\": \"endereço completo\",\n    \"complemento\": \"complemento\",\n    \"numero\": \"0000\"\n}",
+					"raw": "{\n    \"nomeCompleto\": \"Nome Completo da Silva\",\n    \"username\": \"Ronaldo\",\n    \"email\": \"eusoudavi@gmail.com\",\n    \"senha\": \"abc1234\",\n    \"confSenha\": \"abc1234\",\n    \"cep\": \"72300603\",\n    \"logradouro\": \"endereço completo\",\n    \"complemento\": \"complemento\",\n    \"numero\": \"000\",\n    \"uf\": \"Distrito Federal\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -117,13 +300,168 @@
 					}
 				},
 				"url": {
-					"raw": "{{url}}/auth/novoUsuario",
+					"raw": "{{url}}/usuario/novoUsuario",
 					"host": [
 						"{{url}}"
 					],
 					"path": [
-						"auth",
+						"usuario",
 						"novoUsuario"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "TODOS OS USUARIOS",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"nomeCompleto\": \"davi\",\n    \"username\": \"Zé\",\n    \"email\": \"eusoudavi@gmail.com\",\n    \"senha\": \"abc1234\",\n    \"confSenha\": \"abc1234\",\n    \"cep\": \"72300603\",\n    \"logradouro\": \"endereço completo\",\n    \"complemento\": \"complemento\",\n    \"numero\": \"0000\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/usuario",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"usuario"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "BUSCAR USUARIO PELO ID",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"nomeCompleto\": \"davi\",\n    \"username\": \"Zé\",\n    \"email\": \"eusoudavi@gmail.com\",\n    \"senha\": \"abc1234\",\n    \"confSenha\": \"abc1234\",\n    \"cep\": \"72300603\",\n    \"logradouro\": \"endereço completo\",\n    \"complemento\": \"complemento\",\n    \"numero\": \"0000\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/usuario/1",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"usuario",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETAR USUÁRIO",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"nomeCompleto\": \"davi\",\n    \"username\": \"Zé\",\n    \"email\": \"eusoudavi@gmail.com\",\n    \"senha\": \"abc1234\",\n    \"confSenha\": \"abc1234\",\n    \"cep\": \"72300603\",\n    \"logradouro\": \"endereço completo\",\n    \"complemento\": \"complemento\",\n    \"numero\": \"0000\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/usuario/6",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"usuario",
+						"6"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ESTADOS",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/estados",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"estados"
 					]
 				}
 			},
@@ -137,7 +475,7 @@
 				"type": "text/javascript",
 				"exec": [
 					"const echoPostRequest = {",
-					"  url: 'http://localhost:8080/auth',",
+					"  url: pm.collectionVariables.get(\"url\") + '/auth',",
 					"  method: 'POST',",
 					"  header: {",
 					"        'content-type': 'application/json',",
@@ -168,12 +506,22 @@
 	"variable": [
 		{
 			"key": "token",
-			"value": "",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkYXZpIiwiZXhwIjoxNjkyNzY1OTQyfQ.7xw67Nok1sl_YnwZ87ZplIvqy0EwmROmbZJHTMPNDsA",
 			"type": "string"
 		},
 		{
 			"key": "url",
 			"value": "localhost:8080",
+			"type": "string"
+		},
+		{
+			"key": "uri_receitas",
+			"value": "/receitas",
+			"type": "string"
+		},
+		{
+			"key": "uri_ingredientes",
+			"value": "/ingredientes",
 			"type": "string"
 		}
 	]
