@@ -25,6 +25,12 @@ public class Ingredientes {
         this.valorNutricional = valorNutricional;
     }
 
+    public Ingredientes(String nome, String valorNutricional, GrupoAlimentar grupoAlimentar) {
+        this.nome = nome;
+        this.valorNutricional = valorNutricional;
+        this.grupoAlimentar = grupoAlimentar;
+    }
+
     public Long getId() {
         return id;
     }
