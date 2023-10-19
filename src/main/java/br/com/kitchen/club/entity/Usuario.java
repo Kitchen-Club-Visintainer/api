@@ -7,7 +7,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.Collection;
-import java.util.List;
 
 @Entity
 public class Usuario implements UserDetails {
@@ -32,9 +31,6 @@ public class Usuario implements UserDetails {
 
     @OneToOne
     private Enderecos endereco;
-
-    @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<LivroReceita> livroReceitas;
 
     public Usuario() {
     }
@@ -104,14 +100,6 @@ public class Usuario implements UserDetails {
 
     public void setEndereco(Enderecos endereco) {
         this.endereco = endereco;
-    }
-
-    public List<LivroReceita> getLivroReceitas() {
-        return livroReceitas;
-    }
-
-    public void setLivroReceitas(List<LivroReceita> livroReceitas) {
-        this.livroReceitas = livroReceitas;
     }
 
     public Boolean getAtivo() {
