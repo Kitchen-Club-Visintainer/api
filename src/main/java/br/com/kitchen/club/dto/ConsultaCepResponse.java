@@ -1,4 +1,4 @@
-package br.com.kitchen.club.dto.response;
+package br.com.kitchen.club.dto;
 
 public record ConsultaCepResponse(
         String cep,

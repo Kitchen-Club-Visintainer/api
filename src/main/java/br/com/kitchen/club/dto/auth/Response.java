@@ -1,21 +1,21 @@
-package br.com.kitchen.club.dto.response;
+package br.com.kitchen.club.dto.auth;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Response<T> {
+public class Response<TokenDto> {
 
-    private T data;
+    private TokenDto data;
     private List<String> errors;
 
     public Response() {
     }
 
-    public T getData() {
+    public TokenDto getData() {
         return data;
     }
 
-    public void setData(T data) {
+    public void setData(TokenDto data) {
         this.data = data;
     }
 

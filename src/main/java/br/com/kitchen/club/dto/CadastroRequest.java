@@ -1,10 +1,9 @@
-package br.com.kitchen.club.dto.request;
+package br.com.kitchen.club.dto;
 
 import br.com.kitchen.club.config.validations.uf.UfValid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-
 
 public record CadastroRequest(
         @NotBlank(message = "INFORME O NOME COMPLETO DO USUÁRIO")

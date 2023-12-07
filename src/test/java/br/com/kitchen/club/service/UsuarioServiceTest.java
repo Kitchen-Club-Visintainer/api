@@ -1,8 +1,8 @@
 package br.com.kitchen.club.service;
 
 import br.com.kitchen.club.config.exception.ParametroException;
-import br.com.kitchen.club.dto.request.CadastroRequest;
-import br.com.kitchen.club.dto.request.UsuarioShallowDto;
+import br.com.kitchen.club.dto.CadastroRequest;
+import br.com.kitchen.club.dto.usuario.UsuarioShallowDto;
 import br.com.kitchen.club.entity.Usuario;
 import br.com.kitchen.club.mapper.UsuarioMapper;
 import br.com.kitchen.club.repository.UsuarioRepository;

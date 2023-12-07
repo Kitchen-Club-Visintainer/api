@@ -1,4 +1,4 @@
-package br.com.kitchen.club.dto.response;
+package br.com.kitchen.club.dto.usuario;
 
 import br.com.kitchen.club.entity.Enderecos;
 import br.com.kitchen.club.entity.Usuario;

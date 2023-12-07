@@ -3,13 +3,11 @@ package br.com.kitchen.club.service;
 import br.com.kitchen.club.bases.BaseService;
 import br.com.kitchen.club.config.exception.ParametroException;
 import br.com.kitchen.club.config.webclient.RestClient;
-import br.com.kitchen.club.dto.request.CadastroRequest;
-import br.com.kitchen.club.dto.request.UsuarioShallowDto;
+import br.com.kitchen.club.dto.CadastroRequest;
+import br.com.kitchen.club.dto.usuario.UsuarioShallowDto;
 import br.com.kitchen.club.entity.Usuario;
-import br.com.kitchen.club.entity.enums.Uf;
 import br.com.kitchen.club.mapper.UsuarioMapper;
 import br.com.kitchen.club.repository.UsuarioRepository;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
@@ -20,7 +18,7 @@ import java.util.Optional;
 @Service
 public class UsuarioService extends BaseService<Usuario> {
 
-    private final UsuarioRepository usuarioRepository;
+    private final UsuarioRepository repository;
     private final UsuarioMapper usuarioMapper;
     private final EnderecosService enderecosService;
 
@@ -29,7 +27,7 @@ public class UsuarioService extends BaseService<Usuario> {
                           RestClient restClient,
                           EnderecosService enderecosService) {
         super(restClient);
-        this.usuarioRepository = usuarioRepository;
+        this.repository = usuarioRepository;
         this.usuarioMapper = usuarioMapper;
         this.enderecosService = enderecosService;
     }
@@ -64,7 +62,7 @@ public class UsuarioService extends BaseService<Usuario> {
     }
 
     public Optional<Usuario> buscarUsuarioPeloUsername(String username) {
-        return usuarioRepository.findByUsuario(username);
+        return repository.findByUsuario(username);
     }
 
     private void verificarExistenciaUsuario(CadastroRequest cadastro) throws ParametroException {
@@ -83,7 +81,7 @@ public class UsuarioService extends BaseService<Usuario> {
 
     @Override
     public JpaRepository getRepository() {
-        return usuarioRepository;
+        return repository;
     }
 
     @Override

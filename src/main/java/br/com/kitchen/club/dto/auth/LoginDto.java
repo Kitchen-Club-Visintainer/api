@@ -1,8 +1,8 @@
-package br.com.kitchen.club.dto.request;
+package br.com.kitchen.club.dto.auth;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
-public class LoginDTO {
+public class LoginDto {
 
     private String nome;
     private String senha;

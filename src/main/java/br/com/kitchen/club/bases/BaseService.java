@@ -14,7 +14,7 @@ public abstract class BaseService<Entity> {
 
     protected final RestClient restClient;
 
-    protected final Log logger = LogFactory.getLog(BaseService.class);
+    protected final Log logger = LogFactory.getLog(this.getClass());
 
     protected BaseService(RestClient restClient) {
         this.restClient = restClient;

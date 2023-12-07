@@ -2,9 +2,9 @@ package br.com.kitchen.club.controller;
 
 import br.com.kitchen.club.config.exception.ParametroException;
 import br.com.kitchen.club.config.exception.ServiceException;
-import br.com.kitchen.club.dto.request.CadastroRequest;
-import br.com.kitchen.club.dto.request.UsuarioShallowDto;
-import br.com.kitchen.club.dto.response.UsuarioDto;
+import br.com.kitchen.club.dto.CadastroRequest;
+import br.com.kitchen.club.dto.usuario.UsuarioShallowDto;
+import br.com.kitchen.club.dto.usuario.UsuarioDto;
 import br.com.kitchen.club.entity.Usuario;
 import br.com.kitchen.club.service.UsuarioService;
 import jakarta.validation.Valid;

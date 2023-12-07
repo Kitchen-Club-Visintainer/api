@@ -27,8 +27,6 @@ public class Usuario implements UserDetails {
 
     private PerfilUsuario perfilUsuario;
 
-    //TODO: Colocar atributo de ATIVO  e PERFIS
-
     @OneToOne
     private Enderecos endereco;
 

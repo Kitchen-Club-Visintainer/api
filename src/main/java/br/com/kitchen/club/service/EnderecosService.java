@@ -4,8 +4,8 @@ import br.com.kitchen.club.bases.BaseService;
 import br.com.kitchen.club.config.Util;
 import br.com.kitchen.club.config.exception.ParametroException;
 import br.com.kitchen.club.config.webclient.RestClient;
-import br.com.kitchen.club.dto.request.CadastroRequest;
-import br.com.kitchen.club.dto.response.ConsultaCepResponse;
+import br.com.kitchen.club.dto.CadastroRequest;
+import br.com.kitchen.club.dto.ConsultaCepResponse;
 import br.com.kitchen.club.entity.Enderecos;
 import br.com.kitchen.club.entity.enums.Uf;
 import br.com.kitchen.club.repository.EnderecosRepository;
@@ -27,11 +27,11 @@ public class EnderecosService extends BaseService<Enderecos> {
     @Value("${api.cep.endpoint:null}")
     private String API_CEP;
 
-    private final EnderecosRepository enderecosRepository;
+    private final EnderecosRepository repository;
 
     public EnderecosService(RestClient restClient, EnderecosRepository enderecosRepository) {
         super(restClient);
-        this.enderecosRepository = enderecosRepository;
+        this.repository = enderecosRepository;
     }
 
     public Optional<ConsultaCepResponse> procurarCep(String cep) throws JsonProcessingException {
@@ -60,7 +60,7 @@ public class EnderecosService extends BaseService<Enderecos> {
 
     @Override
     public JpaRepository getRepository() {
-        return enderecosRepository;
+        return repository;
     }
 
     @Override

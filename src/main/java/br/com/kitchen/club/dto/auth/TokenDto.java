@@ -1,4 +1,4 @@
-package br.com.kitchen.club.dto;
+package br.com.kitchen.club.dto.auth;
 
 public class TokenDto {
 

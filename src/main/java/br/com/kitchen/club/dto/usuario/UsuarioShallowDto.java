@@ -1,4 +1,4 @@
-package br.com.kitchen.club.dto.request;
+package br.com.kitchen.club.dto.usuario;
 
 import br.com.kitchen.club.entity.Usuario;
 import jakarta.validation.constraints.NotBlank;
